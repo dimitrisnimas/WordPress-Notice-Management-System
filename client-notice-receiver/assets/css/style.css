@@ -1,0 +1,93 @@
+/**
+ * Client Notice Receiver Styles
+ * File: assets/css/style.css
+ */
+
+.cnr-notice {
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+
+.cnr-notice.notice-info {
+    border-left-color: #72aee6;
+}
+
+.cnr-notice.notice-success {
+    border-left-color: #00a32a;
+}
+
+.cnr-notice.notice-warning {
+    border-left-color: #dba617;
+}
+
+.cnr-notice.notice-error {
+    border-left-color: #d63638;
+}
+
+.cnr-notice-content {
+    margin: 10px 0;
+}
+
+.cnr-notice-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cnr-notice-content p:last-child {
+    margin-bottom: 0;
+}
+
+.cnr-notice h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Dismissible notice button styling */
+.cnr-notice.is-dismissible {
+    padding-right: 38px;
+}
+
+.cnr-dismiss-notice {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    border: none;
+    margin: 0;
+    padding: 9px;
+    background: none;
+    color: #787c82;
+    cursor: pointer;
+}
+
+.cnr-dismiss-notice:before {
+    content: '\f153';
+    font-family: dashicons;
+    font-size: 16px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.cnr-dismiss-notice:hover,
+.cnr-dismiss-notice:focus {
+    color: #d63638;
+}
+
+/* Animation for notice appearance */
+@keyframes cnr-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cnr-notice {
+    animation: cnr-slide-in 0.3s ease-out;
+}
