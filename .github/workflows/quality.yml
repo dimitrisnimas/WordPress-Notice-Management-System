@@ -1,0 +1,84 @@
+name: Quality checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  phpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run PHPCS
+        run: composer lint
+
+  phpunit:
+    name: PHPUnit integration tests
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: wordpress_test
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check out WordPress test suite
+        uses: actions/checkout@v4
+        with:
+          repository: WordPress/wordpress-develop
+          ref: trunk
+          path: wordpress-develop
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Configure WordPress tests
+        run: |
+          cp wordpress-develop/wp-tests-config-sample.php wordpress-develop/wp-tests-config.php
+          sed -i "s/youremptytestdbnamehere/wordpress_test/" wordpress-develop/wp-tests-config.php
+          sed -i "s/yourusernamehere/root/" wordpress-develop/wp-tests-config.php
+          sed -i "s/yourpasswordhere/root/" wordpress-develop/wp-tests-config.php
+          sed -i "s|localhost|127.0.0.1|" wordpress-develop/wp-tests-config.php
+
+      - name: Run PHPUnit
+        env:
+          WP_TESTS_DIR: ${{ github.workspace }}/wordpress-develop/tests/phpunit
+          WP_TESTS_CONFIG_FILE_PATH: ${{ github.workspace }}/wordpress-develop/wp-tests-config.php
+        run: composer test

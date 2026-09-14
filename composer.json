@@ -1,0 +1,23 @@
+{
+    "name": "dimitrisnimas/wordpress-notice-management-system",
+    "description": "Centralized WordPress dashboard notice management portfolio project.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "phpunit/phpunit": "^9.6",
+        "wp-coding-standards/wpcs": "^3.2",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": "phpcs --standard=phpcs.xml.dist",
+        "test": "phpunit --configuration phpunit.xml.dist"
+    }
+}

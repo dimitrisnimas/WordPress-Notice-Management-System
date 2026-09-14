@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    failOnRisky="true"
+    failOnWarning="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="WordPress Notice Management System">
+            <directory suffix=".php">tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -4,6 +4,7 @@
  */
 
 .cnr-notice {
+    position: relative;
     border-left-width: 4px;
     border-left-style: solid;
 }
@@ -76,6 +77,10 @@
     color: #d63638;
 }
 
+.cnr-test-result {
+    margin-top: 10px;
+}
+
 /* Animation for notice appearance */
 @keyframes cnr-slide-in {
     from {
@@ -90,4 +95,10 @@
 
 .cnr-notice {
     animation: cnr-slide-in 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cnr-notice {
+        animation: none;
+    }
 }
